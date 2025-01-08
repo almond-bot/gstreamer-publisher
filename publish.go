@@ -24,6 +24,7 @@ import (
 	"github.com/go-gst/go-glib/glib"
 	"github.com/go-gst/go-gst/gst"
 
+	"github.com/livekit/protocol/auth"
 	"github.com/livekit/protocol/livekit"
 	"github.com/livekit/protocol/logger"
 	lksdk "github.com/livekit/server-sdk-go/v2"
@@ -43,7 +44,11 @@ var (
 
 type PublisherParams struct {
 	URL            string
-	Token          string
+	APIKey         string
+	APISecret      string
+	Identity       string
+	Name           string
+	Room           string
 	PipelineString string
 }
 
@@ -74,13 +79,30 @@ func (p *Publisher) Start() error {
 		return err
 	}
 
+	canPublish := true
+	canSubscribe := true
+
+	at := auth.NewAccessToken(p.params.APIKey, p.params.APISecret)
+	grant := &auth.VideoGrant{
+		RoomJoin:     true,
+		Room:         p.params.Room,
+		CanPublish:   &canPublish,
+		CanSubscribe: &canSubscribe,
+	}
+	at.SetVideoGrant(grant).SetIdentity(p.params.Identity).SetName(p.params.Name)
+
+	token, err := at.ToJWT()
+	if err != nil {
+		return err
+	}
+
 	// TODO: connect at the same time in parallel as spinning up pipeline
 	cb := lksdk.NewRoomCallback()
 	cb.OnDisconnected = func() {
 		// TODO: stop publishing and exit
 	}
 	p.room = lksdk.NewRoom(cb)
-	err := p.room.JoinWithToken(p.params.URL, p.params.Token,
+	err = p.room.JoinWithToken(p.params.URL, token,
 		lksdk.WithAutoSubscribe(false),
 	)
 	if err != nil {

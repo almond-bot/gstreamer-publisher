@@ -36,16 +36,35 @@ func main() {
 			&cli.StringFlag{
 				Name:    "url",
 				Usage:   "url to LiveKit instance",
-				EnvVars: []string{"LIVEKIT_URL"},
-				Value:   "http://localhost:7880",
+				Required: true,
 			},
 			&cli.IntFlag{
 				Name:  "delay",
 				Usage: "delay in seconds before publishing",
 			},
 			&cli.StringFlag{
-				Name:     "token",
-				Usage:    "access token for authentication. canPublish permission is required",
+				Name:     "api-key",
+				Usage:    "API key for LiveKit",
+				Required: true,
+			},
+			&cli.StringFlag{
+				Name:     "api-secret", 
+				Usage:    "API secret for LiveKit",
+				Required: true,
+			},
+			&cli.StringFlag{
+				Name:     "identity",
+				Usage:    "identity of the publisher",
+				Required: true,
+			},
+			&cli.StringFlag{
+				Name:     "name",
+				Usage:    "name of the publisher",
+				Required: true,
+			},
+			&cli.StringFlag{
+				Name:     "room",
+				Usage:    "room of the publisher",
 				Required: true,
 			},
 			&cli.BoolFlag{
@@ -55,7 +74,11 @@ func main() {
 		Action: func(c *cli.Context) error {
 			publisher := NewPublisher(PublisherParams{
 				URL:            c.String("url"),
-				Token:          c.String("token"),
+				APIKey:         c.String("api-key"),
+				APISecret:      c.String("api-secret"),
+				Identity:       c.String("identity"),
+				Name:           c.String("name"),
+				Room:           c.String("room"),
 				PipelineString: strings.Join(c.Args().Slice(), " "),
 			})
 			if delay := c.Int("delay"); delay != 0 {
