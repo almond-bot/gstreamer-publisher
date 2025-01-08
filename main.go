@@ -31,7 +31,7 @@ func main() {
 		Name:      "gstreamer-publisher",
 		Usage:     "Publish video/audio from a GStreamer pipeline to LiveKit",
 		Version:   "0.1.0",
-		UsageText: "gstreamer-publisher --url <url> --token <token> [--delay second] -- <gst-launch parameters>",
+		UsageText: "gstreamer-publisher --url <url> --api-key <key> --api-secret <secret> --identity <id> --name <name> --room <room> [--delay second] -- <gst-launch parameters>",
 		Flags: []cli.Flag{
 			&cli.StringFlag{
 				Name:    "url",
