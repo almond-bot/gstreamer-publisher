@@ -1,11 +1,11 @@
 module github.com/livekit/gstreamer-publisher
 
-go 1.23.1
+go 1.23.2
 
 toolchain go1.23.4
 
 require (
-	github.com/go-gst/go-glib v1.4.0
+	github.com/go-gst/go-glib v1.4.1-0.20241209142714-f53cebf18559
 	github.com/go-gst/go-gst v1.4.0
 	github.com/livekit/protocol v1.30.0
 	github.com/livekit/server-sdk-go/v2 v2.4.1
@@ -27,6 +27,7 @@ require (
 	github.com/frostbyte73/core v0.1.0 // indirect
 	github.com/fsnotify/fsnotify v1.8.0 // indirect
 	github.com/gammazero/deque v1.0.0 // indirect
+	github.com/go-gst/go-pointer v0.0.0-20241127163939-ba766f075b4c // indirect
 	github.com/go-jose/go-jose/v3 v3.0.3 // indirect
 	github.com/go-logr/logr v1.4.2 // indirect
 	github.com/go-logr/stdr v1.2.2 // indirect
@@ -42,7 +43,6 @@ require (
 	github.com/livekit/mediatransportutil v0.0.0-20241220010243-a2bdee945564 // indirect
 	github.com/livekit/psrpc v0.6.1-0.20241018124827-1efff3d113a8 // indirect
 	github.com/magefile/mage v1.15.0 // indirect
-	github.com/mattn/go-pointer v0.0.1 // indirect
 	github.com/nats-io/nats.go v1.38.0 // indirect
 	github.com/nats-io/nkeys v0.4.9 // indirect
 	github.com/nats-io/nuid v1.0.1 // indirect
@@ -87,3 +87,5 @@ require (
 )
 
 replace github.com/livekit/server-sdk-go/v2 => ../server-sdk-go
+
+replace github.com/go-gst/go-gst => ../go-gst
