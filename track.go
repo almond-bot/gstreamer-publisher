@@ -37,6 +37,7 @@ type publisherTrack struct {
 	publication *lksdk.LocalTrackPublication
 	isEnded     atomic.Bool
 	onEOS       func()
+	room        *lksdk.Room
 }
 
 func createPublisherTrack(mimeType string) (*publisherTrack, error) {
@@ -120,6 +121,11 @@ func (t *publisherTrack) handleSample(sink *app.Sink) gst.FlowReturn {
 		Data:     buffer.Bytes(),
 		Duration: time.Duration(duration),
 	}, nil)
+
+	if t.room != nil {
+		timestamp := []byte(fmt.Sprintf("%d", time.Now().UnixMilli()))
+		t.room.LocalParticipant.PublishDataPacket(lksdk.UserData(timestamp), lksdk.WithDataPublishReliable(false), lksdk.WithDataPublishTopic("latency"))
+	}
 
 	switch {
 	case err == nil:

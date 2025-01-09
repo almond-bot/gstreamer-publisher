@@ -109,6 +109,10 @@ func (p *Publisher) Start() error {
 		return err
 	}
 
+	if p.videoTrack != nil {
+		p.videoTrack.room = p.room
+	}
+
 	// publish tracks if sinks are set up
 	if p.videoTrack != nil {
 		pub, err := p.room.LocalParticipant.PublishTrack(p.videoTrack.track, &lksdk.TrackPublicationOptions{
