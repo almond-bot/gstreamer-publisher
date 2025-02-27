@@ -49,6 +49,7 @@ type PublisherParams struct {
 	Identity       string
 	Name           string
 	Room           string
+	Track          string
 	PipelineString string
 }
 
@@ -116,6 +117,7 @@ func (p *Publisher) Start() error {
 	// publish tracks if sinks are set up
 	if p.videoTrack != nil {
 		pub, err := p.room.LocalParticipant.PublishTrack(p.videoTrack.track, &lksdk.TrackPublicationOptions{
+			Name: p.params.Track,
 			Source: livekit.TrackSource_CAMERA,
 		})
 		if err != nil {
@@ -129,6 +131,7 @@ func (p *Publisher) Start() error {
 
 	if p.audioTrack != nil {
 		pub, err := p.room.LocalParticipant.PublishTrack(p.audioTrack.track, &lksdk.TrackPublicationOptions{
+			Name: p.params.Track,
 			Source: livekit.TrackSource_MICROPHONE,
 		})
 		if err != nil {

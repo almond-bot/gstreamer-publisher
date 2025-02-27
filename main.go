@@ -67,6 +67,11 @@ func main() {
 				Usage:    "room of the publisher",
 				Required: true,
 			},
+			&cli.StringFlag{
+				Name:     "track",
+				Usage:    "name of the track",
+				Required: true,
+			},
 			&cli.BoolFlag{
 				Name: "verbose",
 			},
@@ -79,6 +84,7 @@ func main() {
 				Identity:       c.String("identity"),
 				Name:           c.String("name"),
 				Room:           c.String("room"),
+				Track:          c.String("track"),
 				PipelineString: strings.Join(c.Args().Slice(), " "),
 			})
 			if delay := c.Int("delay"); delay != 0 {
